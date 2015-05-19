@@ -149,8 +149,26 @@ namespace Poker
 
     class Player
     {
-        public List<Card> Hand { get; set; }
+       
         public double Wallet { get; set; }
+
+        public static List<Card> Deal(List<Card> deck)
+        {
+            
+            List<Card> Hand = new List<Card>();
+            Random rand = new Random();
+
+            for (int i = 0; i < 5; i++)
+            {
+
+                int index = rand.Next(deck.Count());
+                Hand.ToList().Add(deck[index]);
+            }
+
+            return Hand;
+
+
+        }
     }
     
 
