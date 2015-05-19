@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
+using System.Reflection;
 using System.Reflection.Emit;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -9,37 +10,21 @@ using System.Threading.Tasks;
 
 namespace Poker
 {
-    public enum cards
-    {
-        Two = 2,
-        Three = 3,
-        Four = 4,
-        Five = 5,
-        Six = 6,
-        Seven = 7,
-        Eight = 8,
-        Nine = 9,
-        Ten = 10,
-        Jack = 11,
-        Queen = 12,
-        King = 13,
-        Ace = 14
-    }
-
 
     internal class Program
     {
 
+
+
         public static void Main(string[] args)
         {
+            
+
             //make a player class wiht a hand property of a collection, and then a collection of collections for all the suits and ccards inside the suits. 
             List<Card> deck = CreateDeck();
-            for (int i = 0; i < deck.Count; i++)
-            {
-
-                Console.WriteLine( + deck[i].Cardnumber + " of " + deck[i].Suit + "  " );
-            }
-            Console.ReadLine();
+            // makesureworking(deck);              //this makes sure the deck worked. 
+            
+            
         }
 
       
@@ -49,9 +34,9 @@ namespace Poker
             List<Card> deck = new List<Card>();
             for (int i = 0; i < 4; i++)
             {
-                  
+
                 string suit = "Spades";
-             if (i == 1)
+                if (i == 1)
                     suit = "Hearts";
                 if (i == 2)
                     suit = "Clubs";
@@ -69,8 +54,98 @@ namespace Poker
             return deck;
 
         }
-    }
 
+        public static string cardnumber(int cardnum)
+        {
+
+            switch (cardnum)
+            {
+                case 2:
+                {
+                    return "Two";
+                }
+                case 3:
+                {
+                    return "Three";
+                }
+                case 4:
+                {
+                    return "Four";
+
+                }
+                case 5:
+                {
+                    return "Five";
+
+                }
+                case 6:
+                {
+                    return "Six";
+
+                }
+                case 7:
+                {
+                    return "Seven";
+
+                }
+                case 8:
+                {
+                    return "Eight";
+
+                }
+                case 9:
+                {
+                    return "Nine";
+
+                }
+                case 10:
+                {
+                    return "Ten";
+
+                }
+                case 11:
+                {
+                    return "Jack";
+
+                }
+                case 12:
+                {
+                    return "Queen";
+
+                }
+                case 13:
+                {
+                    return "King";
+
+                }
+                case 14:
+                {
+                    return "Ace";
+
+                }
+                default:
+                {
+                    return " ";
+                }
+
+            }
+        }
+
+
+        private static void makesureworking(List<Card> deck)
+        {
+            for (int i = 0; i < deck.Count; i++)
+            {
+
+                Console.WriteLine(cardnumber(deck[i].Cardnumber) + " of " + deck[i].Suit + "  ");
+            }
+            Console.ReadLine();
+        }
+
+
+
+
+    }
 
     class Player
     {
@@ -92,18 +167,25 @@ namespace Poker
             Cardnumber = cardnumber;
         }
 
-       
-       
-        
-	
-		 
-	
-      //  Card AceofSpades = new Card(14, "Spades");
-       // Card TwoofSpades = new Card(2, "Spades");
-       // Card ThreeofSpades = new Card(3, "Spades");
-
+      
     }
 
-       
+
+    public enum cards
+    {
+        Two = 2,
+        Three = 3,
+        Four = 4,
+        Five = 5,
+        Six = 6,
+        Seven = 7,
+        Eight = 8,
+        Nine = 9,
+        Ten = 10,
+        Jack = 11,
+        Queen = 12,
+        King = 13,
+        Ace = 14
+    } 
     
 }
