@@ -27,18 +27,7 @@ namespace Poker
             Player player2 = new Player();
             Player player3 = new Player();
             Player player4 = new Player();
-          // // player1.hand = player1.Deal(deck);
-          // // deck = removehandfromdeck(player1.hand);
-          ////  player2.hand = player2.Deal(deck);
-          ////  deck = removehandfromdeck(player2.hand);
-          //  player3.hand = player3.Deal(deck);
-          //  deck = removehandfromdeck(player3.hand);
-          //  player4.hand = player4.Deal(deck);
-          //  makesureworking(player1.hand);
-          //  makesureworking(player2.hand);
-          //  makesureworking(player3.hand);
-          //  makesureworking(player4.hand);
-
+        
              var player1hand = player1.Deal(deck);
              Console.ReadLine();
              deck = removehandfromdeck(player1hand);
