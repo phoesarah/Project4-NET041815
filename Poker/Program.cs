@@ -20,7 +20,6 @@ namespace Poker
         public static void Main(string[] args)
         {
             
-
             //make a player class wiht a hand property of a collection, and then a collection of collections for all the suits and ccards inside the suits. 
             List<Card> deck = CreateDeck();
             // makesureworking(deck);              //this makes sure the deck worked. 
@@ -28,17 +27,33 @@ namespace Poker
             Player player2 = new Player();
             Player player3 = new Player();
             Player player4 = new Player();
-            player1.hand = player1.Deal(deck);
-            deck = removehandfromdeck(player1.hand);
-            player2.hand = player2.Deal(deck);
-            deck = removehandfromdeck(player2.hand);
-            player3.hand = player3.Deal(deck);
-            deck = removehandfromdeck(player3.hand);
-            player4.hand = player4.Deal(deck);
-            makesureworking(player1.hand);
-            makesureworking(player2.hand);
-            makesureworking(player3.hand);
-            makesureworking(player4.hand);
+          // // player1.hand = player1.Deal(deck);
+          // // deck = removehandfromdeck(player1.hand);
+          ////  player2.hand = player2.Deal(deck);
+          ////  deck = removehandfromdeck(player2.hand);
+          //  player3.hand = player3.Deal(deck);
+          //  deck = removehandfromdeck(player3.hand);
+          //  player4.hand = player4.Deal(deck);
+          //  makesureworking(player1.hand);
+          //  makesureworking(player2.hand);
+          //  makesureworking(player3.hand);
+          //  makesureworking(player4.hand);
+
+             var player1hand = player1.Deal(deck);
+             Console.ReadLine();
+             deck = removehandfromdeck(player1hand);
+             var player2hand = player2.Deal(deck);
+             Console.ReadLine();
+             deck = removehandfromdeck(player2hand);
+             var player3hand = player3.Deal(deck);
+             Console.ReadLine();
+             deck = removehandfromdeck(player3hand);
+             var player4hand = player4.Deal(deck);
+             Console.ReadLine();
+             makesureworking(player1hand);
+             makesureworking(player2hand);
+             makesureworking(player3hand);
+             makesureworking(player4hand);
             
         }
 
@@ -168,14 +183,14 @@ namespace Poker
 
     class Player
     {
-        public List<Card> hand { get; set; } 
+        //public List<Card> hand { get; set; } 
         public double Wallet { get; set; }
 
         
 
         public  List<Card> Deal(List<Card> deck)
         {
-            List<Card> Hand = hand;
+            List<Card> Hand = new List<Card>();
             Random rand = new Random();
             for (int i = 0; i < 5; i++)
             {
@@ -185,7 +200,7 @@ namespace Poker
                 deck.Remove(deck[index]);
             }
 
-            return hand;
+            return Hand;
 
 
         }
