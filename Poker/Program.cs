@@ -1,5 +1,7 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Dynamic;
 using System.Linq;
 using System.Reflection;
@@ -14,8 +16,7 @@ namespace Poker
     internal class Program
     {
 
-
-
+        
         public static void Main(string[] args)
         {
             
@@ -23,8 +24,29 @@ namespace Poker
             //make a player class wiht a hand property of a collection, and then a collection of collections for all the suits and ccards inside the suits. 
             List<Card> deck = CreateDeck();
             // makesureworking(deck);              //this makes sure the deck worked. 
+            Player player1 = new Player();
+            Player player2 = new Player();
+            Player player3 = new Player();
+            Player player4 = new Player();
+            player1.hand = player1.Deal(deck);
+            deck = removehandfromdeck(player1.hand);
+            player2.hand = player2.Deal(deck);
+            deck = removehandfromdeck(player2.hand);
+            player3.hand = player3.Deal(deck);
+            deck = removehandfromdeck(player3.hand);
+            player4.hand = player4.Deal(deck);
+            makesureworking(player1.hand);
+            makesureworking(player2.hand);
+            makesureworking(player3.hand);
+            makesureworking(player4.hand);
             
-            
+        }
+
+        private static List<Card> removehandfromdeck(List<Card> player1Hand)
+        {
+            List<Card> newdeck = CreateDeck();
+            newdeck = newdeck.Except(player1Hand).ToList();
+            return newdeck;
         }
 
       
@@ -57,7 +79,6 @@ namespace Poker
 
         public static string cardnumber(int cardnum)
         {
-
             switch (cardnum)
             {
                 case 2:
@@ -143,29 +164,28 @@ namespace Poker
         }
 
 
-
-
     }
 
     class Player
     {
-       
+        public List<Card> hand { get; set; } 
         public double Wallet { get; set; }
 
-        public static List<Card> Deal(List<Card> deck)
-        {
-            
-            List<Card> Hand = new List<Card>();
-            Random rand = new Random();
+        
 
+        public  List<Card> Deal(List<Card> deck)
+        {
+            List<Card> Hand = hand;
+            Random rand = new Random();
             for (int i = 0; i < 5; i++)
             {
-
+                
                 int index = rand.Next(deck.Count());
-                Hand.ToList().Add(deck[index]);
+                Hand.Add(deck[index]);
+                deck.Remove(deck[index]);
             }
 
-            return Hand;
+            return hand;
 
 
         }
