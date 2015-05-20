@@ -22,7 +22,7 @@ namespace Poker
             
             //make a player class wiht a hand property of a collection, and then a collection of collections for all the suits and ccards inside the suits. 
             List<Card> deck = CreateDeck();
-            // makesureworking(deck);              //this makes sure the deck worked. 
+            
             Player player1 = new Player();
             Player player2 = new Player();
             Player player3 = new Player();
@@ -30,29 +30,145 @@ namespace Poker
         
              var player1hand = player1.Deal(deck);
              Console.ReadLine();
-             deck = removehandfromdeck(player1hand);
+             deck = removehandfromdeck(player1hand, deck);
+             Console.ReadLine();
              var player2hand = player2.Deal(deck);
              Console.ReadLine();
-             deck = removehandfromdeck(player2hand);
+             deck = removehandfromdeck(player2hand, deck);
+             Console.ReadLine();
              var player3hand = player3.Deal(deck);
              Console.ReadLine();
-             deck = removehandfromdeck(player3hand);
-             var player4hand = player4.Deal(deck);
+             deck = removehandfromdeck(player3hand, deck);
              Console.ReadLine();
-             makesureworking(player1hand);
-             makesureworking(player2hand);
-             makesureworking(player3hand);
-             makesureworking(player4hand);
-            
+             var player4hand = player4.Deal(deck);
+                         
+            Console.ReadLine();
+
+            makesureworking(player1hand);
+            makesureworking(player2hand);
+            makesureworking(player3hand);
+            makesureworking(player4hand);
+            makesureworking(deck);
+            Console.ReadLine();
+
+            CompareHands(player1hand, player2hand, player3hand, player4hand);
+
         }
 
-        private static List<Card> removehandfromdeck(List<Card> player1Hand)
+        private static void CompareHands(List<Card> player1hand, List<Card> player2hand, List<Card> player3hand, List<Card> player4hand)
         {
-            List<Card> newdeck = CreateDeck();
+            
+            cardcombination player1has = getnameofhand(player1hand);
+            cardcombination player2has = getnameofhand(player2hand);
+            cardcombination player3has = getnameofhand(player3hand);
+            cardcombination player4has = getnameofhand(player4hand);
+            Console.WriteLine("Player 1 has: " + player1has);
+            Console.WriteLine("Player 2 has: " + player2has);
+            Console.WriteLine("Player 3 has: " + player3has);
+            Console.WriteLine("Player 4 has: " + player4has);
+            Console.ReadLine();
+        }
+
+        private static cardcombination getnameofhand(List<Card> playerhand)
+        {
+            var sequenced = playerhand.OrderBy(x => x.Cardnumber).ToList();
+
+            if ((sequenced[1].Cardnumber == (sequenced[0].Cardnumber + 1) &&
+                 sequenced[2].Cardnumber == (sequenced[1].Cardnumber + 1) &&
+                 sequenced[3].Cardnumber == (sequenced[2].Cardnumber + 1) &&
+                 sequenced[4].Cardnumber == (sequenced[3].Cardnumber + 1)) &&
+                sequenced[4].Cardnumber == 14 && (playerhand[0].Suit == playerhand[1].Suit && playerhand[0].Suit == playerhand[2].Suit &&
+              playerhand[0].Suit == playerhand[3].Suit &&
+               playerhand[0].Suit == playerhand[4].Suit))
+            {
+                return cardcombination.RoyalFlush;
+            }
+            else if ((sequenced[1].Cardnumber == (sequenced[0].Cardnumber + 1) &&
+                 sequenced[2].Cardnumber == (sequenced[1].Cardnumber + 1) &&
+                 sequenced[3].Cardnumber == (sequenced[2].Cardnumber + 1) &&
+                 sequenced[4].Cardnumber == (sequenced[3].Cardnumber + 1)) &&
+                (playerhand[0].Suit == playerhand[1].Suit && playerhand[0].Suit == playerhand[2].Suit &&
+              playerhand[0].Suit == playerhand[3].Suit &&
+               playerhand[0].Suit == playerhand[4].Suit))
+            {
+                return cardcombination.StraightFlush;
+            }
+
+            else if (sequenced[0].Cardnumber == sequenced[1].Cardnumber  && sequenced[0].Cardnumber == sequenced[2].Cardnumber &&
+            sequenced[0].Cardnumber == sequenced[3].Cardnumber || sequenced[4].Cardnumber == sequenced[1].Cardnumber  && sequenced[4].Cardnumber == sequenced[2].Cardnumber &&
+            sequenced[4].Cardnumber == sequenced[3].Cardnumber)
+            {
+                return cardcombination.FourofaKind;
+
+            }
+
+            else if (sequenced[0].Cardnumber == sequenced[1].Cardnumber && sequenced[0].Cardnumber == sequenced[2].Cardnumber &&
+            sequenced[3].Cardnumber == sequenced[4].Cardnumber || sequenced[0].Cardnumber == sequenced[1].Cardnumber && sequenced[4].Cardnumber == sequenced[2].Cardnumber &&
+            sequenced[3].Cardnumber == sequenced[4].Cardnumber)
+            {
+                return cardcombination.FullHouse;
+
+            }
+
+            else if (sequenced[1].Cardnumber == (sequenced[0].Cardnumber + 1) && sequenced[2].Cardnumber == (sequenced[1].Cardnumber + 1) &&
+                sequenced[3].Cardnumber == (sequenced[2].Cardnumber + 1)&&  sequenced[4].Cardnumber == (sequenced[3].Cardnumber + 1))
+            {
+                return cardcombination.Straight;
+                
+            }
+          
+           
+           else if (playerhand[0].Suit == playerhand[1].Suit && playerhand[0].Suit == playerhand[2].Suit &&
+                    playerhand[0].Suit == playerhand[3].Suit &&
+                    playerhand[0].Suit == playerhand[4].Suit)
+               return cardcombination.Flush;
+
+            else if (sequenced[0].Cardnumber == sequenced[1].Cardnumber && sequenced[0].Cardnumber == sequenced[2].Cardnumber ||
+                sequenced[1].Cardnumber == sequenced[2].Cardnumber && sequenced[1].Cardnumber == sequenced[3].Cardnumber ||
+                sequenced[2].Cardnumber == sequenced[3].Cardnumber && sequenced[2].Cardnumber == sequenced[4].Cardnumber)
+            {
+                return cardcombination.ThreeofaKind;
+
+            }
+
+            else if ((sequenced[0].Cardnumber == sequenced[1].Cardnumber && sequenced[2].Cardnumber == sequenced[3].Cardnumber) || 
+                (sequenced[0].Cardnumber == sequenced[1].Cardnumber && sequenced[3].Cardnumber == sequenced[4].Cardnumber) ||
+                (sequenced[1].Cardnumber == sequenced[2].Cardnumber && sequenced[3].Cardnumber == sequenced[4].Cardnumber))
+           {
+                return cardcombination.TwoPair;
+
+           }
+
+            else if (sequenced[0].Cardnumber == sequenced[1].Cardnumber || sequenced[1].Cardnumber == sequenced[2].Cardnumber ||
+                sequenced[2].Cardnumber == sequenced[3].Cardnumber || sequenced[3].Cardnumber == sequenced[4].Cardnumber)
+            {
+               return cardcombination.Pair;
+
+           }
+
+           else return cardcombination.Nothing;
+        }
+
+        private static List<Card> removehandfromdeck(List<Card> player1Hand, List<Card> deck)
+        {
+            List<Card> newdeck = deck;
             newdeck = newdeck.Except(player1Hand).ToList();
             return newdeck;
         }
 
+        public enum cardcombination
+        {
+            Nothing,
+            Pair,
+            TwoPair,
+            ThreeofaKind,
+            Straight,
+            Flush,
+            FullHouse,
+            FourofaKind,
+            StraightFlush,
+            RoyalFlush,
+        }
       
         public static List<Card> CreateDeck()
         {
@@ -170,7 +286,7 @@ namespace Poker
 
     }
 
-    class Player
+    class Player 
     {
         //public List<Card> hand { get; set; } 
         public double Wallet { get; set; }
@@ -193,6 +309,11 @@ namespace Poker
 
 
         }
+
+       // public int CompareTo(Player other)
+       // {
+            // this.Deal() returns the hand   if returns 0 equal, if returns negative -1 then this is less than other, if plus, this is more than other
+       // }
     }
     
 
