@@ -12,10 +12,10 @@ using System.Threading.Tasks;
 
 namespace Poker
 {
-
-    internal class Program
+   
+    internal  class Program
     {
-
+        public static Random rand = new Random();
         
         public static void Main(string[] args)
         {
@@ -29,17 +29,11 @@ namespace Poker
             Player player4 = new Player();
         
              var player1hand = player1.Deal(deck);
-             Console.ReadLine();
              deck = removehandfromdeck(player1hand, deck);
-             Console.ReadLine();
              var player2hand = player2.Deal(deck);
-             Console.ReadLine();
              deck = removehandfromdeck(player2hand, deck);
-             Console.ReadLine();
              var player3hand = player3.Deal(deck);
-             Console.ReadLine();
              deck = removehandfromdeck(player3hand, deck);
-             Console.ReadLine();
              var player4hand = player4.Deal(deck);
                          
             Console.ReadLine();
@@ -48,7 +42,7 @@ namespace Poker
             makesureworking(player2hand);
             makesureworking(player3hand);
             makesureworking(player4hand);
-            makesureworking(deck);
+           // makesureworking(deck);
             Console.ReadLine();
 
             CompareHands(player1hand, player2hand, player3hand, player4hand);
@@ -62,6 +56,14 @@ namespace Poker
             cardcombination player2has = getnameofhand(player2hand);
             cardcombination player3has = getnameofhand(player3hand);
             cardcombination player4has = getnameofhand(player4hand);
+            string winner;
+            if (player1has > player2has && player1has > player3has && player1has > player4has)
+            {
+                winner = "Player 1 is the winner";
+
+            }
+
+               
             Console.WriteLine("Player 1 has: " + player1has);
             Console.WriteLine("Player 2 has: " + player2has);
             Console.WriteLine("Player 3 has: " + player3has);
@@ -296,11 +298,11 @@ namespace Poker
         public  List<Card> Deal(List<Card> deck)
         {
             List<Card> Hand = new List<Card>();
-            Random rand = new Random();
+            
             for (int i = 0; i < 5; i++)
             {
                 
-                int index = rand.Next(deck.Count());
+                int index = Program.rand.Next(deck.Count());
                 Hand.Add(deck[index]);
                 deck.Remove(deck[index]);
             }
