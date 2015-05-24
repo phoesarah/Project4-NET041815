@@ -16,11 +16,55 @@ namespace Poker
     internal  class Program
     {
         public static Random rand = new Random();
-        
+
         public static void Main(string[] args)
         {
-            
-            //make a player class wiht a hand property of a collection, and then a collection of collections for all the suits and ccards inside the suits. 
+            Console.WriteLine("Welcome to Sarah's Poker Room! ");
+            Console.WriteLine("1. Start");
+            Console.WriteLine("2. Exit");
+            string startgame = Console.ReadLine();
+            if (startgame == "1")
+            {
+                Console.Clear();
+                StartGameOptions();
+                
+            }
+            else if (startgame == "2")
+            {
+                Environment.Exit(0);
+
+            }
+        }
+
+        public static void StartGameOptions()
+        {
+            Console.WriteLine("Your Name:");
+            string playername = Console.ReadLine();
+            Console.WriteLine("How many players would you like to play against? Please choose a number between" +
+                              "1 and 4");
+            int numberofplayers = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("How big would you like the ante to be?");
+            int antesize = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("How much money would you like to start with?");
+            int walletsize = Convert.ToInt32(Console.ReadLine());
+            if (walletsize > antesize*3)
+            {
+                StartGame(playername, numberofplayers, antesize, walletsize);
+            }
+            else
+            {
+                Console.WriteLine("You don't have enough money to play with that ante size, " +
+                                  "please choose a wallet size at least 3 times as large as the ante" +
+                                  "you would like to play with \n-------------------------------------------------------------------" +
+                                  "------------");
+                
+                StartGameOptions();
+            }
+        }
+          public static void StartGame(string playermname, int numberofplayers, double antesize, double walletsize)
+        {
+              
+        //make a player class wiht a hand property of a collection, and then a collection of collections for all the suits and ccards inside the suits. 
             List<Card> deck = CreateDeck();
             
             Player player1 = new Player();
@@ -42,22 +86,38 @@ namespace Poker
             makesureworking(player2hand);
             makesureworking(player3hand);
             makesureworking(player4hand);
+
            // makesureworking(deck);
             Console.ReadLine();
 
             CompareHands(player1hand, player2hand, player3hand, player4hand);
-
+          
         }
 
         private static void CompareHands(List<Card> player1hand, List<Card> player2hand, List<Card> player3hand, List<Card> player4hand)
         {
-            
+            var listofallhands = new List<List<Card>>();
+            var listofalltypesofhandsinsequence = new List<cardcombination>();
+            var playerhandssequencedbytypeofhand = listofalltypesofhandsinsequence.OrderBy(x => x).ToList();
             cardcombination player1has = getnameofhand(player1hand);
             cardcombination player2has = getnameofhand(player2hand);
             cardcombination player3has = getnameofhand(player3hand);
             cardcombination player4has = getnameofhand(player4hand);
+
+            listofallhands.Add(player1hand);
+            listofallhands.Add(player2hand);
+            listofallhands.Add(player3hand);
+            listofallhands.Add(player4hand);
+
+            listofalltypesofhandsinsequence.Add(player1has);
+            listofalltypesofhandsinsequence.Add(player2has);
+            listofalltypesofhandsinsequence.Add(player3has);
+            listofalltypesofhandsinsequence.Add(player4has);
+
             string winner;
+
             if (player1has > player2has && player1has > player3has && player1has > player4has)
+                
             {
                 winner = "Player 1 is the winner";
 
@@ -111,7 +171,7 @@ namespace Poker
                 return cardcombination.FullHouse;
 
             }
-
+                //make sure to include if 0 is 14 and 1 is 2 and 2 is 3 ...then coudl have 5 high straight  --also check all orders of operations. 
             else if (sequenced[1].Cardnumber == (sequenced[0].Cardnumber + 1) && sequenced[2].Cardnumber == (sequenced[1].Cardnumber + 1) &&
                 sequenced[3].Cardnumber == (sequenced[2].Cardnumber + 1)&&  sequenced[4].Cardnumber == (sequenced[3].Cardnumber + 1))
             {
