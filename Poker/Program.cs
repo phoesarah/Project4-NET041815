@@ -12,37 +12,37 @@ using System.Threading.Tasks;
 
 namespace Poker
 {
-   
-    internal  class Program
+
+    internal class Program
     {
         public static Random rand = new Random();
-        
+
         public static void Main(string[] args)
         {
-            
+
             //make a player class wiht a hand property of a collection, and then a collection of collections for all the suits and ccards inside the suits. 
             List<Card> deck = CreateDeck();
-            
+
             Player player1 = new Player();
             Player player2 = new Player();
             Player player3 = new Player();
             Player player4 = new Player();
-        
-             var player1hand = player1.Deal(deck);
-             deck = removehandfromdeck(player1hand, deck);
-             var player2hand = player2.Deal(deck);
-             deck = removehandfromdeck(player2hand, deck);
-             var player3hand = player3.Deal(deck);
-             deck = removehandfromdeck(player3hand, deck);
-             var player4hand = player4.Deal(deck);
-                         
+
+            player1.Hand = Deal(deck);
+            deck = removehandfromdeck(player1.Hand, deck);
+            player2.Hand = Deal(deck);
+            deck = removehandfromdeck(player2.Hand, deck);
+            player3.Hand = Deal(deck);
+            deck = removehandfromdeck(player3.Hand, deck);
+            player4.Hand = Deal(deck);
+
             Console.ReadLine();
 
             makesureworking(player1hand);
             makesureworking(player2hand);
             makesureworking(player3hand);
             makesureworking(player4hand);
-           // makesureworking(deck);
+            // makesureworking(deck);
             Console.ReadLine();
 
             CompareHands(player1hand, player2hand, player3hand, player4hand);
@@ -51,7 +51,7 @@ namespace Poker
 
         private static void CompareHands(List<Card> player1hand, List<Card> player2hand, List<Card> player3hand, List<Card> player4hand)
         {
-            
+
             cardcombination player1has = getnameofhand(player1hand);
             cardcombination player2has = getnameofhand(player2hand);
             cardcombination player3has = getnameofhand(player3hand);
@@ -63,7 +63,7 @@ namespace Poker
 
             }
 
-               
+
             Console.WriteLine("Player 1 has: " + player1has);
             Console.WriteLine("Player 2 has: " + player2has);
             Console.WriteLine("Player 3 has: " + player3has);
@@ -96,8 +96,8 @@ namespace Poker
                 return cardcombination.StraightFlush;
             }
 
-            else if (sequenced[0].Cardnumber == sequenced[1].Cardnumber  && sequenced[0].Cardnumber == sequenced[2].Cardnumber &&
-            sequenced[0].Cardnumber == sequenced[3].Cardnumber || sequenced[4].Cardnumber == sequenced[1].Cardnumber  && sequenced[4].Cardnumber == sequenced[2].Cardnumber &&
+            else if (sequenced[0].Cardnumber == sequenced[1].Cardnumber && sequenced[0].Cardnumber == sequenced[2].Cardnumber &&
+            sequenced[0].Cardnumber == sequenced[3].Cardnumber || sequenced[4].Cardnumber == sequenced[1].Cardnumber && sequenced[4].Cardnumber == sequenced[2].Cardnumber &&
             sequenced[4].Cardnumber == sequenced[3].Cardnumber)
             {
                 return cardcombination.FourofaKind;
@@ -113,17 +113,17 @@ namespace Poker
             }
 
             else if (sequenced[1].Cardnumber == (sequenced[0].Cardnumber + 1) && sequenced[2].Cardnumber == (sequenced[1].Cardnumber + 1) &&
-                sequenced[3].Cardnumber == (sequenced[2].Cardnumber + 1)&&  sequenced[4].Cardnumber == (sequenced[3].Cardnumber + 1))
+                sequenced[3].Cardnumber == (sequenced[2].Cardnumber + 1) && sequenced[4].Cardnumber == (sequenced[3].Cardnumber + 1))
             {
                 return cardcombination.Straight;
-                
+
             }
-          
-           
-           else if (playerhand[0].Suit == playerhand[1].Suit && playerhand[0].Suit == playerhand[2].Suit &&
-                    playerhand[0].Suit == playerhand[3].Suit &&
-                    playerhand[0].Suit == playerhand[4].Suit)
-               return cardcombination.Flush;
+
+
+            else if (playerhand[0].Suit == playerhand[1].Suit && playerhand[0].Suit == playerhand[2].Suit &&
+                     playerhand[0].Suit == playerhand[3].Suit &&
+                     playerhand[0].Suit == playerhand[4].Suit)
+                return cardcombination.Flush;
 
             else if (sequenced[0].Cardnumber == sequenced[1].Cardnumber && sequenced[0].Cardnumber == sequenced[2].Cardnumber ||
                 sequenced[1].Cardnumber == sequenced[2].Cardnumber && sequenced[1].Cardnumber == sequenced[3].Cardnumber ||
@@ -133,22 +133,22 @@ namespace Poker
 
             }
 
-            else if ((sequenced[0].Cardnumber == sequenced[1].Cardnumber && sequenced[2].Cardnumber == sequenced[3].Cardnumber) || 
+            else if ((sequenced[0].Cardnumber == sequenced[1].Cardnumber && sequenced[2].Cardnumber == sequenced[3].Cardnumber) ||
                 (sequenced[0].Cardnumber == sequenced[1].Cardnumber && sequenced[3].Cardnumber == sequenced[4].Cardnumber) ||
                 (sequenced[1].Cardnumber == sequenced[2].Cardnumber && sequenced[3].Cardnumber == sequenced[4].Cardnumber))
-           {
+            {
                 return cardcombination.TwoPair;
 
-           }
+            }
 
             else if (sequenced[0].Cardnumber == sequenced[1].Cardnumber || sequenced[1].Cardnumber == sequenced[2].Cardnumber ||
                 sequenced[2].Cardnumber == sequenced[3].Cardnumber || sequenced[3].Cardnumber == sequenced[4].Cardnumber)
             {
-               return cardcombination.Pair;
+                return cardcombination.Pair;
 
-           }
+            }
 
-           else return cardcombination.Nothing;
+            else return cardcombination.Nothing;
         }
 
         private static List<Card> removehandfromdeck(List<Card> player1Hand, List<Card> deck)
@@ -171,7 +171,7 @@ namespace Poker
             StraightFlush,
             RoyalFlush,
         }
-      
+
         public static List<Card> CreateDeck()
         {
 
@@ -199,80 +199,7 @@ namespace Poker
 
         }
 
-        public static string cardnumber(int cardnum)
-        {
-            switch (cardnum)
-            {
-                case 2:
-                {
-                    return "Two";
-                }
-                case 3:
-                {
-                    return "Three";
-                }
-                case 4:
-                {
-                    return "Four";
 
-                }
-                case 5:
-                {
-                    return "Five";
-
-                }
-                case 6:
-                {
-                    return "Six";
-
-                }
-                case 7:
-                {
-                    return "Seven";
-
-                }
-                case 8:
-                {
-                    return "Eight";
-
-                }
-                case 9:
-                {
-                    return "Nine";
-
-                }
-                case 10:
-                {
-                    return "Ten";
-
-                }
-                case 11:
-                {
-                    return "Jack";
-
-                }
-                case 12:
-                {
-                    return "Queen";
-
-                }
-                case 13:
-                {
-                    return "King";
-
-                }
-                case 14:
-                {
-                    return "Ace";
-
-                }
-                default:
-                {
-                    return " ";
-                }
-
-            }
-        }
 
 
         private static void makesureworking(List<Card> deck)
@@ -285,39 +212,110 @@ namespace Poker
             Console.ReadLine();
         }
 
-
-    }
-
-    class Player 
-    {
-        //public List<Card> hand { get; set; } 
-        public double Wallet { get; set; }
-
-        
-
-        public  List<Card> Deal(List<Card> deck)
+        public static List<Card> Deal(List<Card> deck)
         {
             List<Card> Hand = new List<Card>();
-            
+
             for (int i = 0; i < 5; i++)
             {
-                
                 int index = Program.rand.Next(deck.Count());
                 Hand.Add(deck[index]);
                 deck.Remove(deck[index]);
             }
-
             return Hand;
 
-
         }
+        public static string cardnumber(int cardnum)
+        {
+            switch (cardnum)
+            {
+                case 2:
+                    {
+                        return "Two";
+                    }
+                case 3:
+                    {
+                        return "Three";
+                    }
+                case 4:
+                    {
+                        return "Four";
 
-       // public int CompareTo(Player other)
-       // {
-            // this.Deal() returns the hand   if returns 0 equal, if returns negative -1 then this is less than other, if plus, this is more than other
-       // }
+                    }
+                case 5:
+                    {
+                        return "Five";
+
+                    }
+                case 6:
+                    {
+                        return "Six";
+
+                    }
+                case 7:
+                    {
+                        return "Seven";
+
+                    }
+                case 8:
+                    {
+                        return "Eight";
+
+                    }
+                case 9:
+                    {
+                        return "Nine";
+
+                    }
+                case 10:
+                    {
+                        return "Ten";
+
+                    }
+                case 11:
+                    {
+                        return "Jack";
+
+                    }
+                case 12:
+                    {
+                        return "Queen";
+
+                    }
+                case 13:
+                    {
+                        return "King";
+
+                    }
+                case 14:
+                    {
+                        return "Ace";
+
+                    }
+                default:
+                    {
+                        return " ";
+                    }
+
+            }
+        }
     }
-    
+
+    class Player
+    {
+        //public List<Card> hand { get; set; } 
+        public double Wallet { get; set; }
+        public List<Card> Hand { get; set; } 
+
+
+
+
+        // public int CompareTo(Player other)
+        // {
+        // this.Deal() returns the hand   if returns 0 equal, if returns negative -1 then this is less than other, if plus, this is more than other
+        // }
+    }
+
 
     class Card
     {
@@ -325,32 +323,14 @@ namespace Poker
         public int Cardnumber { get; set; }
 
         public Card(int cardnumber, string suit) //maybe use enums so can assign AKQJ and call them that but they have numbers as 11 12 13?
-            //Check to see if cacn display that but have #  https://msdn.microsoft.com/en-us/library/vstudio/bb534336%28v=vs.100%29.aspx 
-            //can do an array inside of a list of cards. 
+        //Check to see if cacn display that but have #  https://msdn.microsoft.com/en-us/library/vstudio/bb534336%28v=vs.100%29.aspx 
+        //can do an array inside of a list of cards. 
         {
             Suit = suit;
             Cardnumber = cardnumber;
         }
 
-      
+
     }
 
-
-    public enum cards
-    {
-        Two = 2,
-        Three = 3,
-        Four = 4,
-        Five = 5,
-        Six = 6,
-        Seven = 7,
-        Eight = 8,
-        Nine = 9,
-        Ten = 10,
-        Jack = 11,
-        Queen = 12,
-        King = 13,
-        Ace = 14
-    } 
-    
 }
