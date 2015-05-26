@@ -96,6 +96,8 @@ namespace Poker
 
         private static void CompareHands(List<Card> player1hand, List<Card> player2hand, List<Card> player3hand, List<Card> player4hand)
         {
+            //it returns the enum, but i don't know which player had that enum. How do I find out?
+            int i = 0;
             var listofallhands = new List<List<Card>>();
             var listofalltypesofhandsinsequence = new List<cardcombination>();
             var playerhandssequencedbytypeofhand = listofalltypesofhandsinsequence.OrderBy(x => x).ToList();
@@ -116,13 +118,7 @@ namespace Poker
 
             string winner;
 
-            if (player1has > player2has && player1has > player3has && player1has > player4has)
-                
-            {
-                winner = "Player 1 is the winner";
-
-            }
-
+            playerhandssequencedbytypeofhand.
                
             Console.WriteLine("Player 1 has: " + player1has);
             Console.WriteLine("Player 2 has: " + player2has);
