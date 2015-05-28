@@ -16,6 +16,13 @@ namespace Poker
 
     internal class Program
     {
+        static Player player1 = new Player();
+        static Player player2 = new Player();
+       static Player player3 = new Player();
+        static Player player4 = new Player();
+        static Player player5 = new Player();
+        
+
         public static Random rand = new Random();
         public static double pot;
         public static void Main(string[] args)
@@ -77,11 +84,7 @@ namespace Poker
 
             List<Card> deck = CreateDeck();
 
-            Player player1 = new Player();
-            Player player2 = new Player();
-            Player player3 = new Player();
-            Player player4 = new Player();
-            Player player5 = new Player();
+            
 
             if (numberofplayers == 1)
             {
@@ -201,15 +204,15 @@ namespace Poker
 
             if (player3hand == null)
             {
-                cardcombination player1 = getnameofhand(player1hand);
-                cardcombination player2 = getnameofhand(player1hand);
-                if (player1 == player2)
+                cardcombination player1combo = getnameofhand(player1hand, player1);
+                cardcombination player2combo = getnameofhand(player1hand, player2);
+                if (player1combo == player2combo)
                 {
                     Console.WriteLine("Tie");
                     printlisttoscreen(player2hand);
                     Console.ReadLine();
                 }
-                else if (player1 > player2)
+                else if (player1combo > player2combo)
                 {
                     Console.WriteLine("Player 1 wins with" + player1);
                     printlisttoscreen(player2hand);
@@ -222,54 +225,10 @@ namespace Poker
                     Console.ReadLine();
                 }
             }
-            else if (player3hand != null && player4hand == null)
-            {
-                cardcombination player1 = getnameofhand(player1hand);
-                cardcombination player2 = getnameofhand(player1hand);
-                cardcombination player3 = getnameofhand(player3hand);
-                if (enuminorder[2] != enuminorder[1])
-                {
-                    if (enuminorder[2] == player1)
-                    {
-                        Console.WriteLine("Player 1 wins with" + player1);
-                        printlisttoscreen(player2hand);
-                        printlisttoscreen(player3hand);
-                        Console.ReadLine();
-                    }
-                    else if (enuminorder[2] == player2)
-                    {
-                        Console.WriteLine("Player 2 wins with" + player2);
-                        printlisttoscreen(player2hand);
-                        printlisttoscreen(player3hand);
-                        Console.ReadLine();
-                    }
-                    else 
-                    {
-                        Console.WriteLine("Player 3 wins with" + player3);
-                        printlisttoscreen(player2hand);
-                        printlisttoscreen(player3hand);
-                        Console.ReadLine();
-                    }
-                }
-                else if (enuminorder[2] == enuminorder[0])
-                {
-                    Console.WriteLine("three way tie" + player1);
-                    printlisttoscreen(player2hand);
-                    printlisttoscreen(player3hand);
-                    Console.ReadLine();
-                }
-                else
-                {
-                    Console.WriteLine("two way tie" + player1);
-                    printlisttoscreen(player2hand);
-                    printlisttoscreen(player3hand);
-                    Console.ReadLine();
-                    
-                }
-            }
+           
         }
-
-        private static cardcombination getnameofhand(List<Card> playerhand)
+      
+        private static cardcombination getnameofhand(List<Card> playerhand, Player player)
         {
             var sequenced = playerhand.OrderBy(x => x.Cardnumber).ToList();
 
@@ -291,13 +250,18 @@ namespace Poker
               playerhand[0].Suit == playerhand[3].Suit &&
                playerhand[0].Suit == playerhand[4].Suit))
             {
+                player.HighCard = sequenced[4].Cardnumber;
+                player.HandComparisonEvaluator = sequenced[4].Cardnumber;
                 return cardcombination.StraightFlush;
+                
             }
 
             else if (sequenced[0].Cardnumber == sequenced[1].Cardnumber && sequenced[0].Cardnumber == sequenced[2].Cardnumber &&
             sequenced[0].Cardnumber == sequenced[3].Cardnumber || sequenced[4].Cardnumber == sequenced[1].Cardnumber && sequenced[4].Cardnumber == sequenced[2].Cardnumber &&
             sequenced[4].Cardnumber == sequenced[3].Cardnumber)
             {
+                player.HandComparisonEvaluator = sequenced[2].Cardnumber;
+                player.HighCard = sequenced[4].Cardnumber;
                 return cardcombination.FourofaKind;
 
             }
@@ -306,6 +270,8 @@ namespace Poker
             sequenced[3].Cardnumber == sequenced[4].Cardnumber || sequenced[0].Cardnumber == sequenced[1].Cardnumber && sequenced[4].Cardnumber == sequenced[2].Cardnumber &&
             sequenced[3].Cardnumber == sequenced[4].Cardnumber)
             {
+                player.HandComparisonEvaluator = sequenced[4].Cardnumber;
+                player.HighCard = sequenced[0].Cardnumber;
                 return cardcombination.FullHouse;
 
             }
@@ -313,6 +279,8 @@ namespace Poker
             else if (sequenced[1].Cardnumber == (sequenced[0].Cardnumber + 1) && sequenced[2].Cardnumber == (sequenced[1].Cardnumber + 1) &&
                 sequenced[3].Cardnumber == (sequenced[2].Cardnumber + 1) && sequenced[4].Cardnumber == (sequenced[3].Cardnumber + 1))
             {
+                player.HandComparisonEvaluator = sequenced[4].Cardnumber;
+                player.HighCard = sequenced[4].Cardnumber;
                 return cardcombination.Straight;
 
             }
@@ -321,32 +289,85 @@ namespace Poker
             else if (playerhand[0].Suit == playerhand[1].Suit && playerhand[0].Suit == playerhand[2].Suit &&
                      playerhand[0].Suit == playerhand[3].Suit &&
                      playerhand[0].Suit == playerhand[4].Suit)
-                return cardcombination.Flush;
-
-            else if (sequenced[0].Cardnumber == sequenced[1].Cardnumber && sequenced[0].Cardnumber == sequenced[2].Cardnumber ||
-                sequenced[1].Cardnumber == sequenced[2].Cardnumber && sequenced[1].Cardnumber == sequenced[3].Cardnumber ||
-                sequenced[2].Cardnumber == sequenced[3].Cardnumber && sequenced[2].Cardnumber == sequenced[4].Cardnumber)
             {
+                player.HandComparisonEvaluator = sequenced[4].Cardnumber;
+                player.HighCard = sequenced[4].Cardnumber;
+                return cardcombination.Flush;
+            }
+            else if (sequenced[0].Cardnumber == sequenced[1].Cardnumber &&
+                     sequenced[0].Cardnumber == sequenced[2].Cardnumber ||
+                     sequenced[1].Cardnumber == sequenced[2].Cardnumber &&
+                     sequenced[1].Cardnumber == sequenced[3].Cardnumber ||
+                     sequenced[2].Cardnumber == sequenced[3].Cardnumber &&
+                     sequenced[2].Cardnumber == sequenced[4].Cardnumber)
+            {
+                player.HandComparisonEvaluator = sequenced[2].Cardnumber;
+                player.HighCard = sequenced[4].Cardnumber;
                 return cardcombination.ThreeofaKind;
 
             }
 
-            else if ((sequenced[0].Cardnumber == sequenced[1].Cardnumber && sequenced[2].Cardnumber == sequenced[3].Cardnumber) ||
-                (sequenced[0].Cardnumber == sequenced[1].Cardnumber && sequenced[3].Cardnumber == sequenced[4].Cardnumber) ||
-                (sequenced[1].Cardnumber == sequenced[2].Cardnumber && sequenced[3].Cardnumber == sequenced[4].Cardnumber))
+            else if ((sequenced[0].Cardnumber == sequenced[1].Cardnumber &&
+                      sequenced[2].Cardnumber == sequenced[3].Cardnumber) ||
+                     (sequenced[0].Cardnumber == sequenced[1].Cardnumber &&
+                      sequenced[3].Cardnumber == sequenced[4].Cardnumber) ||
+                     (sequenced[1].Cardnumber == sequenced[2].Cardnumber &&
+                      sequenced[3].Cardnumber == sequenced[4].Cardnumber))
             {
+                if (sequenced[3].Cardnumber == sequenced[4].Cardnumber)
+                {
+                    player.HandComparisonEvaluator = sequenced[4].Cardnumber;
+                    if (sequenced[2].Cardnumber == sequenced[1].Cardnumber)
+                    {
+                        player.HighCard = sequenced[2].Cardnumber;
+                    }
+                    else
+                    {
+                        player.HighCard = sequenced[0].Cardnumber;
+                    }
+
+                }
+                else if (sequenced[3].Cardnumber == sequenced[2].Cardnumber)
+                {
+                    player.HandComparisonEvaluator = sequenced[3].Cardnumber;
+                    player.HighCard = sequenced[1].Cardnumber;
+                }
                 return cardcombination.TwoPair;
 
             }
 
-            else if (sequenced[0].Cardnumber == sequenced[1].Cardnumber || sequenced[1].Cardnumber == sequenced[2].Cardnumber ||
-                sequenced[2].Cardnumber == sequenced[3].Cardnumber || sequenced[3].Cardnumber == sequenced[4].Cardnumber)
+            else if (sequenced[0].Cardnumber == sequenced[1].Cardnumber ||
+                     sequenced[1].Cardnumber == sequenced[2].Cardnumber ||
+                     sequenced[2].Cardnumber == sequenced[3].Cardnumber ||
+                     sequenced[3].Cardnumber == sequenced[4].Cardnumber)
             {
+                player.HighCard = sequenced[4].Cardnumber;
+                if (sequenced[3].Cardnumber == sequenced[4].Cardnumber)
+                {
+                    player.HandComparisonEvaluator = sequenced[4].Cardnumber;
+                }
+                else if (sequenced[2].Cardnumber == sequenced[3].Cardnumber)
+                {
+                    player.HandComparisonEvaluator = sequenced[3].Cardnumber;
+                }
+                else if (sequenced[1].Cardnumber == sequenced[2].Cardnumber)
+                {
+                    player.HandComparisonEvaluator = sequenced[2].Cardnumber;
+                }
+                else if (sequenced[0].Cardnumber == sequenced[1].Cardnumber)
+                {
+                    player.HandComparisonEvaluator = sequenced[1].Cardnumber;
+                }
                 return cardcombination.Pair;
 
             }
 
-            else return cardcombination.Nothing;
+            else
+            {
+                player.HandComparisonEvaluator = sequenced[4].Cardnumber;
+                player.HighCard = sequenced[3].Cardnumber;
+                return cardcombination.Nothing;
+            }
         }
 
         private static List<Card> removehandfromdeck(List<Card> player1Hand, List<Card> deck)
@@ -496,14 +517,9 @@ namespace Poker
         //public List<Card> hand { get; set; } 
         public double Wallet { get; set; }
         public List<Card> Hand { get; set; }
+        public  int HighCard { get; set; }
+        public  int HandComparisonEvaluator { get; set; }
 
-
-
-
-        // public int CompareTo(Player other)
-        // {
-        // this.Deal() returns the hand   if returns 0 equal, if returns negative -1 then this is less than other, if plus, this is more than other
-        // }
     }
 
 
