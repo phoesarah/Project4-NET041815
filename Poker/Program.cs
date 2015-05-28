@@ -21,7 +21,7 @@ namespace Poker
        static Player player3 = new Player();
         static Player player4 = new Player();
         static Player player5 = new Player();
-        
+        static List<Player> playerlist = new List<Player>();
 
         public static Random rand = new Random();
         public static double pot;
@@ -100,6 +100,8 @@ namespace Poker
                 player1.Wallet = walletsize-antesize;
                 player2.Wallet = Convert.ToDouble(rand.Next((Convert.ToInt32(antesize*3)), Convert.ToInt32(antesize*20)));
                 player2.Wallet -= antesize;
+                playerlist.Add(player1);
+                playerlist.Add(player2);
             }
             else if (numberofplayers == 2)
             {
@@ -113,6 +115,9 @@ namespace Poker
                 player3.Wallet = Convert.ToDouble(rand.Next((Convert.ToInt32(antesize*3)), Convert.ToInt32(antesize*20)));
                 player2.Wallet -= antesize;
                 player3.Wallet -= antesize;
+                playerlist.Add(player1);
+                playerlist.Add(player2);
+                playerlist.Add(player3);
             }
             else if (numberofplayers == 3)
             {
@@ -130,6 +135,10 @@ namespace Poker
                 player2.Wallet -= antesize;
                 player3.Wallet -= antesize;
                 player4.Wallet -= antesize;
+                playerlist.Add(player1);
+                playerlist.Add(player2);
+                playerlist.Add(player3);
+                playerlist.Add(player4);
 
             }
             else if (numberofplayers == 4)
@@ -152,6 +161,11 @@ namespace Poker
                 player3.Wallet -= antesize;
                 player4.Wallet -= antesize;
                 player5.Wallet -= antesize;
+                playerlist.Add(player1);
+                playerlist.Add(player2);
+                playerlist.Add(player3);
+                playerlist.Add(player4);
+                playerlist.Add(player5);
             }
             else
             {
@@ -164,23 +178,23 @@ namespace Poker
             printlisttoscreen(player1.Hand);
             Console.WriteLine("Your Money: $" + player1.Wallet);
             Console.WriteLine("--------------------------------------------------------------");
-            Console.WriteLine("Player 2    [x] [x] [x] [x] [x] " + player2.Wallet);
+            Console.WriteLine("Player 2    [x] [x] [x] [x] [x] " + "     $" + player2.Wallet);
             Console.WriteLine("--------------------------------------------------------------");
             if (player3.Hand != null)
             {
-                Console.WriteLine("Player 3    [x] [x] [x] [x] [x] " + player3.Wallet);
+                Console.WriteLine("Player 3    [x] [x] [x] [x] [x] " + "     $" + player3.Wallet);
                 Console.WriteLine("--------------------------------------------------------------");
 
                 if (player4.Hand != null)
                 {
-                    Console.WriteLine("Player 4   [x] [x] [x] [x] [x] " + player4.Wallet);
+                    Console.WriteLine("Player 4   [x] [x] [x] [x] [x] " + "     $" + player4.Wallet);
                     Console.WriteLine("--------------------------------------------------------------");
                 }
 
 
                 if (player5.Hand != null)
                 {
-                    Console.WriteLine("Player 5   [x] [x] [x] [x] [x] " + player5.Wallet);
+                    Console.WriteLine("Player 5   [x] [x] [x] [x] [x] " + "     $" + player5.Wallet);
                     Console.WriteLine("--------------------------------------------------------------");
                 }
 
