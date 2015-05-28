@@ -208,7 +208,28 @@ namespace Poker
                 cardcombination player2combo = getnameofhand(player1hand, player2);
                 if (player1combo == player2combo)
                 {
-                    Console.WriteLine("Tie");
+                    if (player1.HandComparisonEvaluator == player2.HandComparisonEvaluator)
+                    {
+                        if (player1.HighCard == player2.HighCard)
+                            Console.WriteLine("Tie!");
+                        else if (player1.HighCard > player2.HighCard)
+                        {
+                            Console.WriteLine("Player 1 Wins!");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Player 2 Wins!");
+                        }
+                    }
+                    else if (player1.HandComparisonEvaluator > player2.HandComparisonEvaluator)
+                    {
+                        Console.WriteLine("Player 1 Wins!");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Player 2 Wins!");
+                    }
+
                     printlisttoscreen(player2hand);
                     Console.ReadLine();
                 }
