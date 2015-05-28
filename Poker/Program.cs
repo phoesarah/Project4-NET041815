@@ -450,7 +450,7 @@ namespace Poker
 
             for (int i = 0; i < 5; i++)
             {
-                int index = Program.rand.Next(deck.Count());
+                int index = rand.Next(deck.Count());
                 Hand.Add(deck[index]);
                 deck.Remove(deck[index]);
             }
@@ -540,6 +540,7 @@ namespace Poker
         public List<Card> Hand { get; set; }
         public  int HighCard { get; set; }
         public  int HandComparisonEvaluator { get; set; }
+        public Program.cardcombination HandtypeEnum { get; set; }
 
     }
 
