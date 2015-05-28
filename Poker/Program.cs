@@ -27,6 +27,11 @@ namespace Poker
         public static double pot;
         public static void Main(string[] args)
         {
+            player2.Name = "Computer 2";
+            player3.Name = "Computer 3";
+            player4.Name = "Computer 4";
+            player5.Name = "Computer 5";
+
             FirstMenu();
 
         }
@@ -78,8 +83,9 @@ namespace Poker
             }
         }
 
-        public static void SetupGame(string playermname, int numberofplayers, double antesize, double walletsize)
+        public static void SetupGame(string playername, int numberofplayers, double antesize, double walletsize)
         {
+            player1.Name = playername;
             pot = antesize*numberofplayers;
 
             List<Card> deck = CreateDeck();
@@ -536,6 +542,7 @@ namespace Poker
     class Player
     {
         //public List<Card> hand { get; set; } 
+        public string Name { get; set; }
         public double Wallet { get; set; }
         public List<Card> Hand { get; set; }
         public  int HighCard { get; set; }
