@@ -105,9 +105,7 @@ namespace Poker
                     deck = removehandfromdeck(player1.Hand, deck);
                     player2.Hand = Deal(deck);
                     player1.Wallet = walletsize - antesize;
-                    player2.Wallet =
-                        Convert.ToDouble(rand.Next((Convert.ToInt32(antesize*3)), Convert.ToInt32(antesize*20)));
-                    player2.Wallet -= antesize;
+                    player2.Wallet = walletsize - antesize;
                     playerlist.Add(player1);
                     playerlist.Add(player2);
                 }
@@ -119,12 +117,8 @@ namespace Poker
                     deck = removehandfromdeck(player2.Hand, deck);
                     player3.Hand = Deal(deck);
                     player1.Wallet = walletsize - antesize;
-                    player2.Wallet =
-                        Convert.ToDouble(rand.Next((Convert.ToInt32(antesize*3)), Convert.ToInt32(antesize*20)));
-                    player3.Wallet =
-                        Convert.ToDouble(rand.Next((Convert.ToInt32(antesize*3)), Convert.ToInt32(antesize*20)));
-                    player2.Wallet -= antesize;
-                    player3.Wallet -= antesize;
+                    player2.Wallet = walletsize - antesize;
+                    player3.Wallet = walletsize - antesize;
                     playerlist.Add(player1);
                     playerlist.Add(player2);
                     playerlist.Add(player3);
@@ -139,15 +133,9 @@ namespace Poker
                     deck = removehandfromdeck(player3.Hand, deck);
                     player4.Hand = Deal(deck);
                     player1.Wallet = walletsize - antesize;
-                    player2.Wallet =
-                        Convert.ToDouble(rand.Next((Convert.ToInt32(antesize*3)), Convert.ToInt32(antesize*20)));
-                    player3.Wallet =
-                        Convert.ToDouble(rand.Next((Convert.ToInt32(antesize*3)), Convert.ToInt32(antesize*20)));
-                    player4.Wallet =
-                        Convert.ToDouble(rand.Next((Convert.ToInt32(antesize*3)), Convert.ToInt32(antesize*20)));
-                    player2.Wallet -= antesize;
-                    player3.Wallet -= antesize;
-                    player4.Wallet -= antesize;
+                    player2.Wallet = walletsize - antesize;
+                    player3.Wallet = walletsize - antesize;
+                    player4.Wallet = walletsize - antesize;
                     playerlist.Add(player1);
                     playerlist.Add(player2);
                     playerlist.Add(player3);
@@ -166,18 +154,10 @@ namespace Poker
                     deck = removehandfromdeck(player4.Hand, deck);
                     player5.Hand = Deal(deck);
                     player1.Wallet = walletsize - antesize;
-                    player2.Wallet =
-                        Convert.ToDouble(rand.Next((Convert.ToInt32(antesize*3)), Convert.ToInt32(antesize*20)));
-                    player3.Wallet =
-                        Convert.ToDouble(rand.Next((Convert.ToInt32(antesize*3)), Convert.ToInt32(antesize*20)));
-                    player4.Wallet =
-                        Convert.ToDouble(rand.Next((Convert.ToInt32(antesize*3)), Convert.ToInt32(antesize*20)));
-                    player5.Wallet =
-                        Convert.ToDouble(rand.Next((Convert.ToInt32(antesize*3)), Convert.ToInt32(antesize*20)));
-                    player2.Wallet -= antesize;
-                    player3.Wallet -= antesize;
-                    player4.Wallet -= antesize;
-                    player5.Wallet -= antesize;
+                    player2.Wallet = walletsize - antesize;
+                    player3.Wallet = walletsize - antesize;
+                    player4.Wallet = walletsize - antesize;
+                    player5.Wallet = walletsize - antesize;
                     playerlist.Add(player1);
                     playerlist.Add(player2);
                     playerlist.Add(player3);
