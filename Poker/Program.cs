@@ -17,6 +17,7 @@ namespace Poker
 
     internal class Program
     {
+        static List<Card> deck = CreateDeck();
         static Player player1 = new Player();
         static Player player2 = new Player();
        static Player player3 = new Player();
@@ -94,7 +95,40 @@ namespace Poker
             player1.Name = playername;
             pot = antesize*numberofplayers;
 
-            List<Card> deck = CreateDeck();
+           
+
+            if (numberofplayers == 1)
+            {
+                player1.Wallet = walletsize - antesize;
+                player2.Wallet = walletsize - antesize;
+               
+            }
+            if (numberofplayers == 2)
+            {
+                player1.Wallet = walletsize - antesize;
+                player2.Wallet = walletsize - antesize;
+                player3.Wallet = walletsize - antesize;
+               
+            }
+           if (numberofplayers == 3)
+            {
+                
+                player1.Wallet = walletsize - antesize;
+                player2.Wallet = walletsize - antesize;
+                player3.Wallet = walletsize - antesize;
+                player4.Wallet = walletsize - antesize;
+               
+            }
+            else if (numberofplayers == 4)
+            {
+                
+                player1.Wallet = walletsize - antesize;
+                player2.Wallet = walletsize - antesize;
+                player3.Wallet = walletsize - antesize;
+                player4.Wallet = walletsize - antesize;
+                player5.Wallet = walletsize - antesize;
+                
+            }
 
             while (quit != true)
             {
@@ -104,8 +138,6 @@ namespace Poker
                     player1.Hand = Deal(deck);
                     deck = removehandfromdeck(player1.Hand, deck);
                     player2.Hand = Deal(deck);
-                    player1.Wallet = walletsize - antesize;
-                    player2.Wallet = walletsize - antesize;
                     playerlist.Add(player1);
                     playerlist.Add(player2);
                 }
@@ -115,10 +147,7 @@ namespace Poker
                     deck = removehandfromdeck(player1.Hand, deck);
                     player2.Hand = Deal(deck);
                     deck = removehandfromdeck(player2.Hand, deck);
-                    player3.Hand = Deal(deck);
-                    player1.Wallet = walletsize - antesize;
-                    player2.Wallet = walletsize - antesize;
-                    player3.Wallet = walletsize - antesize;
+                    player3.Hand = Deal(deck);                    
                     playerlist.Add(player1);
                     playerlist.Add(player2);
                     playerlist.Add(player3);
@@ -131,11 +160,7 @@ namespace Poker
                     deck = removehandfromdeck(player2.Hand, deck);
                     player3.Hand = Deal(deck);
                     deck = removehandfromdeck(player3.Hand, deck);
-                    player4.Hand = Deal(deck);
-                    player1.Wallet = walletsize - antesize;
-                    player2.Wallet = walletsize - antesize;
-                    player3.Wallet = walletsize - antesize;
-                    player4.Wallet = walletsize - antesize;
+                    player4.Hand = Deal(deck);                    
                     playerlist.Add(player1);
                     playerlist.Add(player2);
                     playerlist.Add(player3);
@@ -153,11 +178,6 @@ namespace Poker
                     player4.Hand = Deal(deck);
                     deck = removehandfromdeck(player4.Hand, deck);
                     player5.Hand = Deal(deck);
-                    player1.Wallet = walletsize - antesize;
-                    player2.Wallet = walletsize - antesize;
-                    player3.Wallet = walletsize - antesize;
-                    player4.Wallet = walletsize - antesize;
-                    player5.Wallet = walletsize - antesize;
                     playerlist.Add(player1);
                     playerlist.Add(player2);
                     playerlist.Add(player3);
@@ -263,7 +283,12 @@ namespace Poker
             var playerlistenums = playerlist.OrderByDescending(x => x.HandtypeEnum).ToList();
             var playerlisthandcomparisonevaluator = playerlist.OrderByDescending(x => x.HandComparisonEvaluator).ToList();
             var playerlisthighcard = playerlist.OrderByDescending(x => x.HighCard).ToList();
-
+            if (fold)
+            {
+                playerlistenums.Remove(player1);
+                playerlisthandcomparisonevaluator.Remove(player1);
+                playerlisthighcard.Remove(player1);
+            }
             if(playerlistenums[0]!= playerlistenums [1])
             {
                 playerlistenums[0].Wallet += pot;
@@ -324,6 +349,7 @@ namespace Poker
                 fold = false;
                 playerlist.Clear();
                 winnerlist.Clear();
+                deck = CreateDeck();
 
             }
             if (input == "N" || input == "n")
