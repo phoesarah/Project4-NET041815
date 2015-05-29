@@ -93,9 +93,7 @@ namespace Poker
         public static void SetupGame(string playername, int numberofplayers, double antesize, double walletsize)
         {
             player1.Name = playername;
-            pot = antesize*numberofplayers;
-
-           
+                     
 
             if (numberofplayers == 1)
             {
@@ -132,7 +130,7 @@ namespace Poker
 
             while (quit != true)
             {
-
+                pot = antesize * numberofplayers;
                 if (numberofplayers == 1)
                 {
                     player1.Hand = Deal(deck);
@@ -140,6 +138,9 @@ namespace Poker
                     player2.Hand = Deal(deck);
                     playerlist.Add(player1);
                     playerlist.Add(player2);
+                    player1.Wallet -= antesize;
+                    player2.Wallet -= antesize;
+                    
                 }
                 else if (numberofplayers == 2)
                 {
@@ -151,6 +152,9 @@ namespace Poker
                     playerlist.Add(player1);
                     playerlist.Add(player2);
                     playerlist.Add(player3);
+                    player1.Wallet -= antesize;
+                    player2.Wallet -= antesize;
+                    player3.Wallet -= antesize;
                 }
                 else if (numberofplayers == 3)
                 {
@@ -165,6 +169,10 @@ namespace Poker
                     playerlist.Add(player2);
                     playerlist.Add(player3);
                     playerlist.Add(player4);
+                    player1.Wallet -= antesize;
+                    player2.Wallet -= antesize;
+                    player3.Wallet -= antesize;
+                    player4.Wallet -= antesize;
 
                 }
                 else if (numberofplayers == 4)
@@ -183,6 +191,11 @@ namespace Poker
                     playerlist.Add(player3);
                     playerlist.Add(player4);
                     playerlist.Add(player5);
+                    player1.Wallet -= antesize;
+                    player2.Wallet -= antesize;
+                    player3.Wallet -= antesize;
+                    player4.Wallet -= antesize;
+                    player5.Wallet -= antesize;
                 }
                 else
                 {
@@ -191,7 +204,7 @@ namespace Poker
                 }
 
 
-                Console.WriteLine(playername + "'s Hand:");
+                Console.Write(playername + "'s Hand:");
                 printlisttoscreen(player1.Hand);
                 Console.WriteLine(playername + "'s Money: $" + player1.Wallet);
                 Console.WriteLine("--------------------------------------------------------------");
@@ -226,7 +239,14 @@ namespace Poker
                     Console.WriteLine("How much would you like to bet?");
                     int moneytobet = Convert.ToInt32(Console.ReadLine());
                     player1.Wallet -= moneytobet;
-                    pot += moneytobet;
+                    player2.Wallet -= moneytobet;
+                    if (player3.Hand != null)
+                        player3.Wallet -= moneytobet;
+                    if (player4.Hand != null)
+                        player4.Wallet -= moneytobet;
+                    if (player5.Hand != null)
+                        player5.Wallet -= moneytobet;
+                    pot += moneytobet * numberofplayers;
                     
                 }
                 else if (response == "3")
@@ -297,12 +317,12 @@ namespace Poker
 
             if (playerlistenums[0]== playerlistenums[1])
             {
-                if( playerlistenums[0].HandComparisonEvaluator > playerlist[1].HandComparisonEvaluator)
+                if( playerlistenums[0].HandComparisonEvaluator > playerlistenums[1].HandComparisonEvaluator)
                 {
                     playerlistenums[0].Wallet += pot;
                     Console.WriteLine(playerlistenums[0].Name + " wins!");
                 }
-                else if( playerlistenums[1].HandComparisonEvaluator > playerlist[0].HandComparisonEvaluator)
+                else if( playerlistenums[1].HandComparisonEvaluator > playerlistenums[0].HandComparisonEvaluator)
                 {
                     playerlistenums[1].Wallet += pot;
                     Console.WriteLine(playerlistenums[1].Name + " wins!");
@@ -312,23 +332,28 @@ namespace Poker
 
 
 
-
-            Console.WriteLine("Player 2 had: " + player2.HandtypeEnum + " ");
+            Console.WriteLine(player1.Name + " had: " + player1.HandtypeEnum + " ");
+            Console.WriteLine();
+            Console.Write("Player 2 had: " + player2.HandtypeEnum + " ");
             printlisttoscreen(player2hand);
+            Console.WriteLine();
             if (player3.Hand != null)
             {
-                Console.WriteLine("Player 3 had: " + player3.HandtypeEnum + " ");
+                Console.Write("Player 3 had: " + player3.HandtypeEnum + " ");
                 printlisttoscreen(player3hand);
+                Console.WriteLine();
             }
             if (player4.Hand != null)
             {
-                Console.WriteLine("Player 4 had: " + player4.HandtypeEnum + " ");
+                Console.Write("Player 4 had: " + player4.HandtypeEnum + " ");
                 printlisttoscreen(player4hand);
+                Console.WriteLine();
             }
             if (player5.Hand != null)
             {
-                Console.WriteLine("Player 5 had:" + player5.HandtypeEnum + " ");
+                Console.Write("Player 5 had:" + player5.HandtypeEnum + " ");
                 printlisttoscreen(player5hand);
+                Console.WriteLine();
             }
             
                   Console.ReadLine();
@@ -350,6 +375,7 @@ namespace Poker
                 playerlist.Clear();
                 winnerlist.Clear();
                 deck = CreateDeck();
+                Console.Clear();
 
             }
             if (input == "N" || input == "n")
