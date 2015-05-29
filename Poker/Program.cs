@@ -245,46 +245,49 @@ namespace Poker
             deck = deck.OrderBy(x => x.Cardnumber).ToList();
             for (int i = 0; i < deck.Count; i++)
             {
-                if (deck[i].Suit == "Hearts" || deck[i].Suit == "Diamonds")
+                if (deck[i].Suit == "♥" || deck[i].Suit == "♦")
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                 }
-                else if (deck[i].Suit == "Clubs" || deck[i].Suit == "Spades")
+                else if (deck[i].Suit == "♣" || deck[i].Suit == "♠")
                 {
                     Console.ForegroundColor = ConsoleColor.White;
                 }
                 Console.Write("[" + cardnumber(deck[i].Cardnumber) + deck[i].Suit + "]  ");
+                Console.ForegroundColor = ConsoleColor.White;
             }
+            Console.ForegroundColor = ConsoleColor.White;
             
         }
 
         public static void CompareHands(List<Card> player1hand, List<Card> player2hand, List<Card> player3hand, List<Card> player4hand, List <Card> player5hand )
         {
-            var playerlistenums = playerlist.OrderByDescending(x => x.HandtypeEnum).ToList();
-            var playerlisthandcomparisonevaluator = playerlist.OrderByDescending(x => x.HandComparisonEvaluator).ToList();
-            var playerlisthighcard = playerlist.OrderByDescending(x => x.HighCard).ToList();
+            
             //if winnerlist[0] != winnerlist[1]; - put into pot and clcear pot 
             
-                player1.HandtypeEnum = getnameofhand(player1hand, player1);
-                player2.HandtypeEnum = getnameofhand(player2hand, player2);
+                getnameofhand(player1hand, player1);
+                getnameofhand(player2hand, player2);
             if (player3hand != null)
             {
-                player3.HandtypeEnum = getnameofhand(player3hand, player3);
+                getnameofhand(player3hand, player3);
             }
             if (player4hand != null)
             {
-                player4.HandtypeEnum = getnameofhand(player4hand, player4);
+               getnameofhand(player4hand, player4);
             }
             if (player5hand != null)
             {
-                player5.HandtypeEnum = getnameofhand(player5hand, player5);
+                getnameofhand(player5hand, player5);
             }
 
+            var playerlistenums = playerlist.OrderByDescending(x => x.HandtypeEnum).ToList();
+            var playerlisthandcomparisonevaluator = playerlist.OrderByDescending(x => x.HandComparisonEvaluator).ToList();
+            var playerlisthighcard = playerlist.OrderByDescending(x => x.HighCard).ToList();
 
             if(playerlistenums[0]!= playerlistenums [1])
             {
                 playerlistenums[0].Wallet += pot;
-                Console.WriteLine(playerlistenums[0].Name + "wins!");
+                Console.WriteLine(playerlistenums[0].Name + " wins!");
             }
 
             if (playerlistenums[0]== playerlistenums[1])
@@ -292,34 +295,34 @@ namespace Poker
                 if( playerlistenums[0].HandComparisonEvaluator > playerlist[1].HandComparisonEvaluator)
                 {
                     playerlistenums[0].Wallet += pot;
-                    Console.WriteLine(playerlistenums[0].Name + "wins!");
+                    Console.WriteLine(playerlistenums[0].Name + " wins!");
                 }
                 else if( playerlistenums[1].HandComparisonEvaluator > playerlist[0].HandComparisonEvaluator)
                 {
                     playerlistenums[1].Wallet += pot;
-                    Console.WriteLine(playerlistenums[1].Name + "wins!");
+                    Console.WriteLine(playerlistenums[1].Name + " wins!");
                 }
                 
             }
 
 
-           
-            
-            Console.WriteLine("Player 2 had:");
+
+
+            Console.WriteLine("Player 2 had: " + player2.HandtypeEnum + " ");
             printlisttoscreen(player2hand);
             if (player3.Hand != null)
             {
-                Console.WriteLine("Player 3 had:");
+                Console.WriteLine("Player 3 had: " + player3.HandtypeEnum + " ");
                 printlisttoscreen(player3hand);
             }
             if (player4.Hand != null)
             {
-                Console.WriteLine("Player 4 had:");
+                Console.WriteLine("Player 4 had: " + player4.HandtypeEnum + " ");
                 printlisttoscreen(player4hand);
             }
             if (player5.Hand != null)
             {
-                Console.WriteLine("Player 5 had:");
+                Console.WriteLine("Player 5 had:" + player5.HandtypeEnum + " ");
                 printlisttoscreen(player5hand);
             }
             
@@ -350,7 +353,7 @@ namespace Poker
 
         }
       
-        private static cardcombination getnameofhand(List<Card> playerhand, Player player)
+        private static void getnameofhand(List<Card> playerhand, Player player)
         {
             var sequenced = playerhand.OrderBy(x => x.Cardnumber).ToList();
 
@@ -362,7 +365,7 @@ namespace Poker
               playerhand[0].Suit == playerhand[3].Suit &&
                playerhand[0].Suit == playerhand[4].Suit))
             {
-                return cardcombination.RoyalFlush;
+                player.HandtypeEnum = cardcombination.RoyalFlush;
             }
             else if ((sequenced[1].Cardnumber == (sequenced[0].Cardnumber + 1) &&
                  sequenced[2].Cardnumber == (sequenced[1].Cardnumber + 1) &&
@@ -374,7 +377,7 @@ namespace Poker
             {
                 player.HighCard = sequenced[4].Cardnumber;
                 player.HandComparisonEvaluator = sequenced[4].Cardnumber;
-                return cardcombination.StraightFlush;
+                player.HandtypeEnum = cardcombination.StraightFlush;
                 
             }
 
@@ -384,7 +387,7 @@ namespace Poker
             {
                 player.HandComparisonEvaluator = sequenced[2].Cardnumber;
                 player.HighCard = sequenced[4].Cardnumber;
-                return cardcombination.FourofaKind;
+                player.HandtypeEnum = cardcombination.FourofaKind;
 
             }
 
@@ -394,7 +397,7 @@ namespace Poker
             {
                 player.HandComparisonEvaluator = sequenced[4].Cardnumber;
                 player.HighCard = sequenced[0].Cardnumber;
-                return cardcombination.FullHouse;
+                player.HandtypeEnum = cardcombination.FullHouse;
 
             }
 
@@ -403,7 +406,7 @@ namespace Poker
             {
                 player.HandComparisonEvaluator = sequenced[4].Cardnumber;
                 player.HighCard = sequenced[4].Cardnumber;
-                return cardcombination.Straight;
+                player.HandtypeEnum = cardcombination.Straight;
 
             }
 
@@ -414,7 +417,7 @@ namespace Poker
             {
                 player.HandComparisonEvaluator = sequenced[4].Cardnumber;
                 player.HighCard = sequenced[4].Cardnumber;
-                return cardcombination.Flush;
+                player.HandtypeEnum = cardcombination.Flush;
             }
             else if (sequenced[0].Cardnumber == sequenced[1].Cardnumber &&
                      sequenced[0].Cardnumber == sequenced[2].Cardnumber ||
@@ -425,7 +428,7 @@ namespace Poker
             {
                 player.HandComparisonEvaluator = sequenced[2].Cardnumber;
                 player.HighCard = sequenced[4].Cardnumber;
-                return cardcombination.ThreeofaKind;
+                player.HandtypeEnum = cardcombination.ThreeofaKind;
 
             }
 
@@ -454,7 +457,7 @@ namespace Poker
                     player.HandComparisonEvaluator = sequenced[3].Cardnumber;
                     player.HighCard = sequenced[1].Cardnumber;
                 }
-                return cardcombination.TwoPair;
+                player.HandtypeEnum = cardcombination.TwoPair;
 
             }
 
@@ -480,7 +483,7 @@ namespace Poker
                 {
                     player.HandComparisonEvaluator = sequenced[1].Cardnumber;
                 }
-                return cardcombination.Pair;
+                player.HandtypeEnum = cardcombination.Pair;
 
             }
             
@@ -488,7 +491,7 @@ namespace Poker
             {
                 player.HandComparisonEvaluator = sequenced[4].Cardnumber;
                 player.HighCard = sequenced[3].Cardnumber;
-                return cardcombination.Nothing;
+                player.HandtypeEnum = cardcombination.Nothing;
             }
         }
 
@@ -520,13 +523,13 @@ namespace Poker
             for (int i = 0; i < 4; i++)
             {
 
-                string suit = "Spades";
+                string suit = "♠";
                 if (i == 1)
-                    suit = "Hearts";
+                    suit = "♥";
                 if (i == 2)
-                    suit = "Clubs";
+                    suit = "♣";
                 if (i == 3)
-                    suit = "Diamonds";
+                    suit = "♦";
                 for (int j = 0; j < 13; j++)
                 {
                     int num = 0;
