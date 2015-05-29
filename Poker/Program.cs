@@ -245,7 +245,15 @@ namespace Poker
             deck = deck.OrderBy(x => x.Cardnumber).ToList();
             for (int i = 0; i < deck.Count; i++)
             {
-                Console.Write("[" + cardnumber(deck[i].Cardnumber) + " of " + deck[i].Suit + "]  ");
+                if (deck[i].Suit == "Hearts" || deck[i].Suit == "Diamonds")
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                }
+                else if (deck[i].Suit == "Clubs" || deck[i].Suit == "Spades")
+                {
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+                Console.Write("[" + cardnumber(deck[i].Cardnumber) + deck[i].Suit + "]  ");
             }
             
         }
