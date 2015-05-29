@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Dynamic;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Security.Authentication.ExtendedProtection;
@@ -22,9 +23,11 @@ namespace Poker
         static Player player4 = new Player();
         static Player player5 = new Player();
         static List<Player> playerlist = new List<Player>();
-
+        static List<Player> winnerlist = new List<Player>();
         public static Random rand = new Random();
         public static double pot;
+        private static bool quit = false;
+        private static bool fold = false;
         public static void Main(string[] args)
         {
             player2.Name = "Computer 2";
@@ -33,7 +36,10 @@ namespace Poker
             player5.Name = "Computer 5";
 
             FirstMenu();
-
+            if (quit)
+            {
+               Environment.Exit(0);
+            }
         }
 
         public static void FirstMenu()
@@ -60,7 +66,7 @@ namespace Poker
 
         public static void SecondMenu()
         {
-            Console.WriteLine("Your Name:");
+            Console.Write("Your Name:");
             string playername = Console.ReadLine();
             Console.WriteLine("How many players would you like to play against? 1, 2, 3, or 4");
             int numberofplayers = Convert.ToInt32(Console.ReadLine());
@@ -90,122 +96,149 @@ namespace Poker
 
             List<Card> deck = CreateDeck();
 
-            
+            while (quit != true)
+            {
 
-            if (numberofplayers == 1)
-            {
-                player1.Hand = Deal(deck);
-                deck = removehandfromdeck(player1.Hand, deck);
-                player2.Hand = Deal(deck);
-                player1.Wallet = walletsize-antesize;
-                player2.Wallet = Convert.ToDouble(rand.Next((Convert.ToInt32(antesize*3)), Convert.ToInt32(antesize*20)));
-                player2.Wallet -= antesize;
-                playerlist.Add(player1);
-                playerlist.Add(player2);
-            }
-            else if (numberofplayers == 2)
-            {
-                player1.Hand = Deal(deck);
-                deck = removehandfromdeck(player1.Hand, deck);
-                player2.Hand = Deal(deck);
-                deck = removehandfromdeck(player2.Hand, deck);
-                player3.Hand = Deal(deck);
-                player1.Wallet = walletsize - antesize;
-                player2.Wallet = Convert.ToDouble(rand.Next((Convert.ToInt32(antesize*3)), Convert.ToInt32(antesize*20)));
-                player3.Wallet = Convert.ToDouble(rand.Next((Convert.ToInt32(antesize*3)), Convert.ToInt32(antesize*20)));
-                player2.Wallet -= antesize;
-                player3.Wallet -= antesize;
-                playerlist.Add(player1);
-                playerlist.Add(player2);
-                playerlist.Add(player3);
-            }
-            else if (numberofplayers == 3)
-            {
-                player1.Hand = Deal(deck);
-                deck = removehandfromdeck(player1.Hand, deck);
-                player2.Hand = Deal(deck);
-                deck = removehandfromdeck(player2.Hand, deck);
-                player3.Hand = Deal(deck);
-                deck = removehandfromdeck(player3.Hand, deck);
-                player4.Hand = Deal(deck);
-                player1.Wallet = walletsize - antesize;
-                player2.Wallet = Convert.ToDouble(rand.Next((Convert.ToInt32(antesize*3)), Convert.ToInt32(antesize*20)));
-                player3.Wallet = Convert.ToDouble(rand.Next((Convert.ToInt32(antesize*3)), Convert.ToInt32(antesize*20)));
-                player4.Wallet = Convert.ToDouble(rand.Next((Convert.ToInt32(antesize*3)), Convert.ToInt32(antesize*20)));
-                player2.Wallet -= antesize;
-                player3.Wallet -= antesize;
-                player4.Wallet -= antesize;
-                playerlist.Add(player1);
-                playerlist.Add(player2);
-                playerlist.Add(player3);
-                playerlist.Add(player4);
+                if (numberofplayers == 1)
+                {
+                    player1.Hand = Deal(deck);
+                    deck = removehandfromdeck(player1.Hand, deck);
+                    player2.Hand = Deal(deck);
+                    player1.Wallet = walletsize - antesize;
+                    player2.Wallet =
+                        Convert.ToDouble(rand.Next((Convert.ToInt32(antesize*3)), Convert.ToInt32(antesize*20)));
+                    player2.Wallet -= antesize;
+                    playerlist.Add(player1);
+                    playerlist.Add(player2);
+                }
+                else if (numberofplayers == 2)
+                {
+                    player1.Hand = Deal(deck);
+                    deck = removehandfromdeck(player1.Hand, deck);
+                    player2.Hand = Deal(deck);
+                    deck = removehandfromdeck(player2.Hand, deck);
+                    player3.Hand = Deal(deck);
+                    player1.Wallet = walletsize - antesize;
+                    player2.Wallet =
+                        Convert.ToDouble(rand.Next((Convert.ToInt32(antesize*3)), Convert.ToInt32(antesize*20)));
+                    player3.Wallet =
+                        Convert.ToDouble(rand.Next((Convert.ToInt32(antesize*3)), Convert.ToInt32(antesize*20)));
+                    player2.Wallet -= antesize;
+                    player3.Wallet -= antesize;
+                    playerlist.Add(player1);
+                    playerlist.Add(player2);
+                    playerlist.Add(player3);
+                }
+                else if (numberofplayers == 3)
+                {
+                    player1.Hand = Deal(deck);
+                    deck = removehandfromdeck(player1.Hand, deck);
+                    player2.Hand = Deal(deck);
+                    deck = removehandfromdeck(player2.Hand, deck);
+                    player3.Hand = Deal(deck);
+                    deck = removehandfromdeck(player3.Hand, deck);
+                    player4.Hand = Deal(deck);
+                    player1.Wallet = walletsize - antesize;
+                    player2.Wallet =
+                        Convert.ToDouble(rand.Next((Convert.ToInt32(antesize*3)), Convert.ToInt32(antesize*20)));
+                    player3.Wallet =
+                        Convert.ToDouble(rand.Next((Convert.ToInt32(antesize*3)), Convert.ToInt32(antesize*20)));
+                    player4.Wallet =
+                        Convert.ToDouble(rand.Next((Convert.ToInt32(antesize*3)), Convert.ToInt32(antesize*20)));
+                    player2.Wallet -= antesize;
+                    player3.Wallet -= antesize;
+                    player4.Wallet -= antesize;
+                    playerlist.Add(player1);
+                    playerlist.Add(player2);
+                    playerlist.Add(player3);
+                    playerlist.Add(player4);
 
-            }
-            else if (numberofplayers == 4)
-            {
-                player1.Hand = Deal(deck);
-                deck = removehandfromdeck(player1.Hand, deck);
-                player2.Hand = Deal(deck);
-                deck = removehandfromdeck(player2.Hand, deck);
-                player3.Hand = Deal(deck);
-                deck = removehandfromdeck(player3.Hand, deck);
-                player4.Hand = Deal(deck);
-                deck = removehandfromdeck(player4.Hand, deck);
-                player5.Hand = Deal(deck);
-                player1.Wallet = walletsize-antesize;
-                player2.Wallet = Convert.ToDouble(rand.Next((Convert.ToInt32(antesize*3)), Convert.ToInt32(antesize*20)));
-                player3.Wallet = Convert.ToDouble(rand.Next((Convert.ToInt32(antesize*3)), Convert.ToInt32(antesize*20)));
-                player4.Wallet = Convert.ToDouble(rand.Next((Convert.ToInt32(antesize*3)), Convert.ToInt32(antesize*20)));
-                player5.Wallet = Convert.ToDouble(rand.Next((Convert.ToInt32(antesize*3)), Convert.ToInt32(antesize*20)));
-                player2.Wallet -= antesize;
-                player3.Wallet -= antesize;
-                player4.Wallet -= antesize;
-                player5.Wallet -= antesize;
-                playerlist.Add(player1);
-                playerlist.Add(player2);
-                playerlist.Add(player3);
-                playerlist.Add(player4);
-                playerlist.Add(player5);
-            }
-            else
-            {
-                Console.WriteLine("You entered a stupid amount of players, go back and do it right, please");
-                SecondMenu();
-            }
+                }
+                else if (numberofplayers == 4)
+                {
+                    player1.Hand = Deal(deck);
+                    deck = removehandfromdeck(player1.Hand, deck);
+                    player2.Hand = Deal(deck);
+                    deck = removehandfromdeck(player2.Hand, deck);
+                    player3.Hand = Deal(deck);
+                    deck = removehandfromdeck(player3.Hand, deck);
+                    player4.Hand = Deal(deck);
+                    deck = removehandfromdeck(player4.Hand, deck);
+                    player5.Hand = Deal(deck);
+                    player1.Wallet = walletsize - antesize;
+                    player2.Wallet =
+                        Convert.ToDouble(rand.Next((Convert.ToInt32(antesize*3)), Convert.ToInt32(antesize*20)));
+                    player3.Wallet =
+                        Convert.ToDouble(rand.Next((Convert.ToInt32(antesize*3)), Convert.ToInt32(antesize*20)));
+                    player4.Wallet =
+                        Convert.ToDouble(rand.Next((Convert.ToInt32(antesize*3)), Convert.ToInt32(antesize*20)));
+                    player5.Wallet =
+                        Convert.ToDouble(rand.Next((Convert.ToInt32(antesize*3)), Convert.ToInt32(antesize*20)));
+                    player2.Wallet -= antesize;
+                    player3.Wallet -= antesize;
+                    player4.Wallet -= antesize;
+                    player5.Wallet -= antesize;
+                    playerlist.Add(player1);
+                    playerlist.Add(player2);
+                    playerlist.Add(player3);
+                    playerlist.Add(player4);
+                    playerlist.Add(player5);
+                }
+                else
+                {
+                    Console.WriteLine("You entered a stupid amount of players, go back and do it right, please");
+                    SecondMenu();
+                }
 
 
-            Console.WriteLine("Your Hand:");
-            printlisttoscreen(player1.Hand);
-            Console.WriteLine("Your Money: $" + player1.Wallet);
-            Console.WriteLine("--------------------------------------------------------------");
-            Console.WriteLine("Player 2    [x] [x] [x] [x] [x] " + "     $" + player2.Wallet);
-            Console.WriteLine("--------------------------------------------------------------");
-            if (player3.Hand != null)
-            {
-                Console.WriteLine("Player 3    [x] [x] [x] [x] [x] " + "     $" + player3.Wallet);
+                Console.WriteLine(playername + "'s Hand:");
+                printlisttoscreen(player1.Hand);
+                Console.WriteLine(playername + "'s Money: $" + player1.Wallet);
                 Console.WriteLine("--------------------------------------------------------------");
-
-                if (player4.Hand != null)
+                Console.WriteLine("Computer 2    [x] [x] [x] [x] [x] " + "     $" + player2.Wallet);
+                Console.WriteLine("--------------------------------------------------------------");
+                if (player3.Hand != null)
                 {
-                    Console.WriteLine("Player 4   [x] [x] [x] [x] [x] " + "     $" + player4.Wallet);
+                    Console.WriteLine("Computer 3    [x] [x] [x] [x] [x] " + "     $" + player3.Wallet);
                     Console.WriteLine("--------------------------------------------------------------");
+
+                    if (player4.Hand != null)
+                    {
+                        Console.WriteLine("Computer 4   [x] [x] [x] [x] [x] " + "     $" + player4.Wallet);
+                        Console.WriteLine("--------------------------------------------------------------");
+                    }
+
+
+                    if (player5.Hand != null)
+                    {
+                        Console.WriteLine("Computer5   [x] [x] [x] [x] [x] " + "     $" + player5.Wallet);
+                        Console.WriteLine("--------------------------------------------------------------");
+                    }
+
+
                 }
-
-
-                if (player5.Hand != null)
+                Console.WriteLine("Would you like to Bet, pass, or fold?");
+                Console.WriteLine("1. [BET]   2. [PASS] 3. [FOLD]");
+                string response = Console.ReadLine();
+                if (response == "1")
                 {
-                    Console.WriteLine("Player 5   [x] [x] [x] [x] [x] " + "     $" + player5.Wallet);
-                    Console.WriteLine("--------------------------------------------------------------");
+                    ///make sure to add all computer money to pot
+                    Console.WriteLine("How much would you like to bet?");
+                    int moneytobet = Convert.ToInt32(Console.ReadLine());
+                    player1.Wallet -= moneytobet;
+                    pot += moneytobet;
+                    
                 }
-
-                
+                else if (response == "3")
+                {
+                    fold = true;
+                }
+                CompareHands(player1.Hand, player2.Hand, player3.Hand, player4.Hand, player5.Hand);
+                Console.ReadLine();
             }
-            Console.WriteLine("Would you like to Bet, pass, or fold?");
-            Console.WriteLine("1 [BET]   2. [PASS] 3. [FOLD]");
-            Console.ReadLine();
-            CompareHands(player1.Hand, player2.Hand, player3.Hand, player4.Hand, player5.Hand);
-            Console.ReadLine();
         }
+
+       
 
         private static void printlisttoscreen(List<Card> deck)
         {
@@ -219,54 +252,94 @@ namespace Poker
 
         public static void CompareHands(List<Card> player1hand, List<Card> player2hand, List<Card> player3hand, List<Card> player4hand, List <Card> player5hand )
         {
-            List<cardcombination> cardcombos= new List<cardcombination>();
-            var enuminorder = cardcombos.OrderBy(x => x).ToList();
-
-            if (player3hand == null)
+            var playerlistenums = playerlist.OrderByDescending(x => x.HandtypeEnum).ToList();
+            var playerlisthandcomparisonevaluator = playerlist.OrderByDescending(x => x.HandComparisonEvaluator).ToList();
+            var playerlisthighcard = playerlist.OrderByDescending(x => x.HighCard).ToList();
+            //if winnerlist[0] != winnerlist[1]; - put into pot and clcear pot 
+            
+                player1.HandtypeEnum = getnameofhand(player1hand, player1);
+                player2.HandtypeEnum = getnameofhand(player2hand, player2);
+            if (player3hand != null)
             {
-                cardcombination player1combo = getnameofhand(player1hand, player1);
-                cardcombination player2combo = getnameofhand(player1hand, player2);
-                if (player1combo == player2combo)
-                {
-                    if (player1.HandComparisonEvaluator == player2.HandComparisonEvaluator)
-                    {
-                        if (player1.HighCard == player2.HighCard)
-                            Console.WriteLine("Tie!");
-                        else if (player1.HighCard > player2.HighCard)
-                        {
-                            Console.WriteLine("Player 1 Wins!");
-                        }
-                        else
-                        {
-                            Console.WriteLine("Player 2 Wins!");
-                        }
-                    }
-                    else if (player1.HandComparisonEvaluator > player2.HandComparisonEvaluator)
-                    {
-                        Console.WriteLine("Player 1 Wins!");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Player 2 Wins!");
-                    }
-
-                    printlisttoscreen(player2hand);
-                    Console.ReadLine();
-                }
-                else if (player1combo > player2combo)
-                {
-                    Console.WriteLine("Player 1 wins with" + player1);
-                    printlisttoscreen(player2hand);
-                    Console.ReadLine();
-                }
-                else 
-                {
-                    Console.WriteLine("Player 2 wins with" + player2);
-                    printlisttoscreen(player2hand);
-                    Console.ReadLine();
-                }
+                player3.HandtypeEnum = getnameofhand(player3hand, player3);
             }
+            if (player4hand != null)
+            {
+                player4.HandtypeEnum = getnameofhand(player4hand, player4);
+            }
+            if (player5hand != null)
+            {
+                player5.HandtypeEnum = getnameofhand(player5hand, player5);
+            }
+
+
+            if(playerlistenums[0]!= playerlistenums [1])
+            {
+                playerlistenums[0].Wallet += pot;
+                Console.WriteLine(playerlistenums[0].Name + "wins!");
+            }
+
+            if (playerlistenums[0]== playerlistenums[1])
+            {
+                if( playerlistenums[0].HandComparisonEvaluator > playerlist[1].HandComparisonEvaluator)
+                {
+                    playerlistenums[0].Wallet += pot;
+                    Console.WriteLine(playerlistenums[0].Name + "wins!");
+                }
+                else if( playerlistenums[1].HandComparisonEvaluator > playerlist[0].HandComparisonEvaluator)
+                {
+                    playerlistenums[1].Wallet += pot;
+                    Console.WriteLine(playerlistenums[1].Name + "wins!");
+                }
+                
+            }
+
+
            
+            
+            Console.WriteLine("Player 2 had:");
+            printlisttoscreen(player2hand);
+            if (player3.Hand != null)
+            {
+                Console.WriteLine("Player 3 had:");
+                printlisttoscreen(player3hand);
+            }
+            if (player4.Hand != null)
+            {
+                Console.WriteLine("Player 4 had:");
+                printlisttoscreen(player4hand);
+            }
+            if (player5.Hand != null)
+            {
+                Console.WriteLine("Player 5 had:");
+                printlisttoscreen(player5hand);
+            }
+            
+                  Console.ReadLine();
+            Endgame();
+
+
+
+        }
+
+        private static void Endgame()
+        {
+            Console.WriteLine("Would you like to play again Y or N?");
+            string input = Console.ReadLine();
+            if (input == "Y" || input == "y")
+            {
+                pot = 0;
+                quit = false;
+                fold = false;
+                playerlist.Clear();
+                winnerlist.Clear();
+
+            }
+            if (input == "N" || input == "n")
+            {
+                quit = true;
+            }
+
         }
       
         private static cardcombination getnameofhand(List<Card> playerhand, Player player)
@@ -402,7 +475,7 @@ namespace Poker
                 return cardcombination.Pair;
 
             }
-
+            
             else
             {
                 player.HandComparisonEvaluator = sequenced[4].Cardnumber;
