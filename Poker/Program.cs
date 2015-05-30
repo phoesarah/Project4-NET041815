@@ -309,13 +309,13 @@ namespace Poker
                 playerlisthandcomparisonevaluator.Remove(player1);
                 playerlisthighcard.Remove(player1);
             }
-            if(playerlistenums[0]!= playerlistenums [1])
+            if(playerlistenums[0].HandtypeEnum!= playerlistenums[1].HandtypeEnum)
             {
                 playerlistenums[0].Wallet += pot;
                 Console.WriteLine(playerlistenums[0].Name + " wins!");
             }
 
-            if (playerlistenums[0]== playerlistenums[1])
+            if (playerlistenums[0].HandtypeEnum == playerlistenums[1].HandtypeEnum)
             {
                 if( playerlistenums[0].HandComparisonEvaluator > playerlistenums[1].HandComparisonEvaluator)
                 {
